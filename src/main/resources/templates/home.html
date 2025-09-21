@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BocataJeria - Home</title>
+    <!-- Enlazamos HTMx -->
+    <script th:src="@{/js/htmx.min.js}"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 2rem; }
+        h1 { color: #333; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 0.5rem; background-color: #f5f5f5; margin-bottom: 0.5rem; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<h1>Grupos en el Instituto</h1>
+<p>Estos son los grupos cargados en la base de datos:</p>
+
+<!-- Thymeleaf iterará sobre la lista "grupos" que mandó el controlador -->
+<ul>
+    <li th:each="grupo : ${grupos}" th:text="${grupo.nombre}">
+        <!-- Aquí aparecerá el nombre de cada grupo -->
+    </li>
+</ul>
+
+<p>Total de grupos: <span th:text="${grupos.size()}">0</span></p>
+
+<!-- Un pequeño ejemplo de HTMx: un botón que recarga la lista -->
+<button hx-get="/" hx-target="body" hx-swap="innerHTML">
+    Recargar Página (Prueba HTMx)
+</button>
+</body>
+</html>

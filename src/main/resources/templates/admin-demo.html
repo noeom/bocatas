@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BocatasApp - Panel Control</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">BocatasApp - Administración</a>
+        <div class="navbar-nav ms-auto">
+            <a class="btn btn-outline-light btn-sm" href="#">Cerrar sesión</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid my-4">
+    <h1 class="h2 mb-4">Resumen de Pedidos <small class="text-muted">para Viernes, 24 de Mayo</small></h1>
+
+    <!-- Tarjeta de Resumen -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Pedidos</h5>
+                    <p class="card-text display-6">47</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Recaudación</h5>
+                    <p class="card-text display-6">142,50 €</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista por Grupos -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Desglose por Grupos</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+                <!-- Grupo 1 -->
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">1º ESO A</h6>
+                        <span class="badge bg-primary rounded-pill">12 pedidos</span>
+                    </div>
+                    <p class="mb-1 small">8x Mixto, 3x Jamón, 1x Queso | 5x Ketchup | 8x Agua, 4x Zumo</p>
+                </div>
+                <!-- Grupo 2 -->
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">2º ESO B</h6>
+                        <span class="badge bg-primary rounded-pill">8 pedidos</span>
+                    </div>
+                    <p class="mb-1 small">5x Jamón Ibérico, 3x Mixto | 2x Mayonesa | 6x Refresco, 2x Agua</p>
+                </div>
+                <!-- Más grupos... -->
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">1º BACH A</h6>
+                        <span class="badge bg-primary rounded-pill">18 pedidos</span>
+                    </div>
+                    <p class="mb-1 small">15x Jamón Ibérico, 3x Queso | 10x Ketchup, 5x Mayonesa | 12x Refresco, 6x Zumo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de Imprimir/Preparar -->
+    <div class="d-grid gap-2 col-6 mx-auto mt-4">
+        <button class="btn btn-outline-success" type="button">Marcar como Preparado e Imprimir Listas</button>
+    </div>
+
+</div>
+
+</body>
+</html>
