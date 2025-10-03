@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+
+<head>
+    <title>Encargar</title>
+</head>
+
+<body>
+
+<div layout:fragment="content" class="container">
+    <div class="container-md py-2 sticky-top bg-white">
+        <div class="row">
+            <th:block th:each="category, iterStat : ${categories}">
+                <div class="col px-1">
+                    <button class="btn flex-fill w-100 category-btn"
+                            th:classappend="${iterStat.first} ? 'btn-primary' : 'btn-outline-primary'"
+                            th:data-category="${category.id}"
+                            th:text="${category.name}">
+                    </button>
+                </div>
+            </th:block>
+        </div>
+    </div>
+
+    <th:block th:each="category, iterStat : ${categories}">
+        <div th:id="'products-' + ${category.id}" class="category-products" th:classappend="${iterStat.first} ? '' : 'd-none'">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3 mt-2 mb-4">
+                <th:block th:each="product : ${allProducts}">
+                    <div th:if="${product.category.id == category.id}">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${product.name}"></h5>
+                                    <h6 class="card-subtitle text-primary" th:text="${#numbers.formatDecimal(product.price / 100.0, 1, 2) + '€'}"></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </th:block>
+
+
+</div>
+
+<div layout:fragment="scripts">
+    <script>
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+
+                // 1. Activar botón clickeado
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-outline-primary');
+                });
+                this.classList.add('btn-primary');
+                this.classList.remove('btn-outline-primary');
+
+                // 2. Mostrar solo los productos de esta categoría
+                document.querySelectorAll('.category-products').forEach(div => {
+                    div.classList.add('d-none');
+                });
+                document.getElementById(`products-${category}`).classList.remove('d-none');
+            });
+        });
+    </script>
+</div>
+
+</body>
+

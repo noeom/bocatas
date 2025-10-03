@@ -1,5 +1,11 @@
+# Base de datos de desarrollo local
+db/
+
 # Archivo de propiedades local (puede contener datos delicados, como nombres de usario o contraseñas de fuentes de datos).
 src/main/resources/application.properties
+
+# Archivo con el token privado de github
+github_token
 
 HELP.md
 target/

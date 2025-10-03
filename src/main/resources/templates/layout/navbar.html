@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- Top navigation bar -->
+<div th:fragment="navbar">
+    <!-- Logout hidden form -->
+    <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
+    </form>
+
+    <div class="container">
+        <nav class="navbar navbar-expand-md mt-2 sticky-top bg-light shadow border rounded-4">
+            <div class="container-fluid">
+                <div class="row w-100 align-items-center">
+                    <div class="col text-start"><a class="navbar-brand text-secondary text-center" href="#"><i class="bi bi-person-circle"></i> <span th:text="${currentUser.name}">Nombre del usuario</span>
+                    </a></div>
+                    <div class="col text-center"><a href="/order/select"><i class="bi bi-fork-knife text-success h3"></i></a></div>
+                    <div class="col text-end">
+                        <a href="#" onclick="document.getElementById('logoutForm').submit();"><i class="bi bi-x-circle-fill text-danger h3"></i></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+</html>
