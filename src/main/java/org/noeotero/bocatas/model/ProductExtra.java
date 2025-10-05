@@ -14,7 +14,7 @@ public class ProductExtra {
     @JoinColumn(name = "id_product")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("extraId")
     @JoinColumn(name = "id_extra")
     private Extra extra;

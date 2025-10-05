@@ -3,6 +3,7 @@ package org.noeotero.bocatas.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -30,6 +31,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category", nullable = false)
     private Category category;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    private List<ProductExtra> extras;
 
     // Constructores
     public Product() {}
@@ -100,5 +104,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<ProductExtra> getExtras() {
+        return extras;
+    }
+
+    public void setExtras(List<ProductExtra> extras) {
+        this.extras = extras;
     }
 }

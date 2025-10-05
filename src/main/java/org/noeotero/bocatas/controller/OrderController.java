@@ -1,26 +1,28 @@
 package org.noeotero.bocatas.controller;
 
-import org.noeotero.bocatas.model.Category;
-import org.noeotero.bocatas.model.Product;
-import org.noeotero.bocatas.service.CategoryService;
-import org.noeotero.bocatas.service.ProductService;
+import org.noeotero.bocatas.components.ProductCache;
+import org.noeotero.bocatas.model.User;
+import org.noeotero.bocatas.service.OrderService;
+import org.noeotero.bocatas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class OrderController {
 
     @Autowired
-    private ProductService productService;
+    private ProductCache productCache;
 
     @Autowired
-    private CategoryService categoryService;
+    private OrderService orderService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/order")
     public String order() {
@@ -29,12 +31,18 @@ public class OrderController {
 
     @GetMapping("/order/select")
     public String select(Model model) {
-        // Get categories.
-        List<Category> categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories);
-        // Get all products.
-        model.addAttribute("allProducts", productService.findAllActive());
+        // Get all products by category.
+        model.addAttribute("productsByCategory", productCache.getProductsByCategory());
         // Forward to view.
         return "pages/order/select";
+    }
+
+    @PostMapping("/order/add")
+    public String addToOrder(@RequestParam Long productId,
+                             @RequestParam(required = false) Long extraId,
+                             Authentication authentication) {
+        User user = userService.findByUsername(authentication.getName());
+        orderService.createOrder(productId, extraId, user);
+        return "redirect:/order";
     }
 }

@@ -1,7 +1,10 @@
 package org.noeotero.bocatas.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -24,6 +27,9 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private Product product;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private List<OrderExtra> extras = new ArrayList<>();
 
     // Constructors
     public Order() {
@@ -90,5 +96,13 @@ public class Order {
 
     public void markAsServed() {
         this.servedDate = LocalDateTime.now();
+    }
+
+    public List<OrderExtra> getExtras() {
+        return extras;
+    }
+
+    public void setExtras(List<OrderExtra> extras) {
+        this.extras = extras;
     }
 }

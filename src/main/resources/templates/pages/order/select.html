@@ -12,32 +12,60 @@
 <div layout:fragment="content" class="container">
     <div class="container-md py-2 sticky-top bg-white">
         <div class="row">
-            <th:block th:each="category, iterStat : ${categories}">
+            <th:block th:each="categoryProducts, iterStat : ${productsByCategory}">
                 <div class="col px-1">
                     <button class="btn flex-fill w-100 category-btn"
                             th:classappend="${iterStat.first} ? 'btn-primary' : 'btn-outline-primary'"
-                            th:data-category="${category.id}"
-                            th:text="${category.name}">
+                            th:data-category="${categoryProducts.key.id}"
+                            th:text="${categoryProducts.key.name}">
                     </button>
                 </div>
             </th:block>
         </div>
     </div>
 
-    <th:block th:each="category, iterStat : ${categories}">
-        <div th:id="'products-' + ${category.id}" class="category-products" th:classappend="${iterStat.first} ? '' : 'd-none'">
+    <th:block th:each="categoryProducts, iterStat : ${productsByCategory}">
+        <div th:id="'products-' + ${categoryProducts.key.id}" class="category-products" th:classappend="${iterStat.first} ? '' : 'd-none'">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3 mt-2 mb-4">
-                <th:block th:each="product : ${allProducts}">
-                    <div th:if="${product.category.id == category.id}">
+                <th:block th:each="product : ${categoryProducts.value}">
                         <div class="col">
                             <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title" th:text="${product.name}"></h5>
-                                    <h6 class="card-subtitle text-primary" th:text="${#numbers.formatDecimal(product.price / 100.0, 1, 2) + '€'}"></h6>
-                                </div>
+                                <form th:action="@{/order/add}" method="post">
+                                    <input type="hidden" th:name="productId" th:value="${product.id}">
+                                    <div class="card-header">
+                                        <h5 class="card-title" th:text="${product.name}"></h5>
+                                        <h6 class="card-subtitle text-primary" th:text="${#numbers.formatDecimal(product.price / 100.0, 1, 2) + '€'}"></h6>
+                                    </div>
+                                    <th:block th:if="${not product.extras.empty}">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                <input class="form-check-input" type="radio"
+                                                       th:name="extraId"
+                                                       th:id="'extra-' + ${product.id} + '-' + 'none'"
+                                                       th:value="${null}" checked>
+                                                <label class="form-check-label"
+                                                       th:for="'extra-' + ${product.id} + '-' + 'none'">
+                                                    Sin extras (+ 0.00€)
+                                                </label>
+                                            </li>
+                                            <th:block th:each="pe : ${product.extras}">
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input" type="radio"
+                                                           th:name="extraId"
+                                                           th:id="'extra-' + ${product.id} + '-' + ${pe.id.extraId}"
+                                                           th:value="${pe.id.extraId}">
+                                                    <label class="form-check-label"
+                                                           th:for="'extra-' + ${product.id} + '-' + ${pe.id.extraId}"
+                                                           th:text="${pe.extra.name} + ' (+ ' + ${#numbers.formatDecimal(pe.price / 100.0, 1, 2)} + '€)'">
+                                                    </label>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                    </th:block>
+                                    <button type="submit" class="btn btn-outline-success rounded-0 rounded-bottom fw-bold w-100">Encargar</button>
+                                </form>
                             </div>
                         </div>
-                    </div>
                 </th:block>
             </div>
         </div>
