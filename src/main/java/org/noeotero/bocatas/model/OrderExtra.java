@@ -1,9 +1,11 @@
 package org.noeotero.bocatas.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "orders_extras")
+@Data
 public class OrderExtra {
 
     @Id
@@ -40,55 +42,5 @@ public class OrderExtra {
         this.productExtra = productExtra;
         this.product = productExtra.getProduct();
         this.extra = productExtra.getExtra();
-    }
-
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Extra getExtra() {
-        return extra;
-    }
-
-    public void setExtra(Extra extra) {
-        this.extra = extra;
-    }
-
-    public ProductExtra getProductExtra() {
-        return productExtra;
-    }
-
-    public void setProductExtra(ProductExtra productExtra) {
-        this.productExtra = productExtra;
-        if (productExtra != null) {
-            this.product = productExtra.getProduct();
-            this.extra = productExtra.getExtra();
-        }
-    }
-
-    // Método helper para obtener el precio del extra en este contexto
-    public int getPrice() {
-        return productExtra != null ? productExtra.getPrice() : 0;
     }
 }

@@ -1,9 +1,11 @@
 package org.noeotero.bocatas.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "extras")
+@Data
 public class Extra {
 
     @Id
@@ -25,31 +27,6 @@ public class Extra {
 
     public Extra(String name, String description) {
         this.name = name;
-        this.description = description;
-    }
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
 }

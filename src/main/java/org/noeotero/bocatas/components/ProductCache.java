@@ -1,7 +1,7 @@
 package org.noeotero.bocatas.components;
 
-import org.noeotero.bocatas.model.Category;
-import org.noeotero.bocatas.model.Product;
+import org.noeotero.bocatas.dto.CategoryDTO;
+import org.noeotero.bocatas.dto.ProductDTO;
 import org.noeotero.bocatas.model.ProductExtra;
 import org.noeotero.bocatas.service.CategoryService;
 import org.noeotero.bocatas.service.ProductService;
@@ -13,24 +13,24 @@ import java.util.stream.Collectors;
 @Component
 public class ProductCache {
 
-    private Map<Category, List<Product>> productsByCategory;
-    private List<Product> allProducts;
+    private Map<CategoryDTO, List<ProductDTO>> productsByCategory;
+    private List<ProductDTO> allProducts;
 
     public ProductCache(ProductService productService, CategoryService categoryService) {
         this.allProducts = productService.findAllActive();
         this.productsByCategory = buildProductsByCategory(categoryService);
     }
 
-    private Map<Category, List<Product>> buildProductsByCategory(CategoryService categoryService) {
-        Map<Category, List<Product>> map = new LinkedHashMap<>();
+    private Map<CategoryDTO, List<ProductDTO>> buildProductsByCategory(CategoryService categoryService) {
+        Map<CategoryDTO, List<ProductDTO>> map = new LinkedHashMap<>();
 
         // Ordenar categorías por ID antes de insertar
-        List<Category> sortedCategories = categoryService.getAllCategories().stream()
-                .sorted(Comparator.comparing(Category::getId))
+        List<CategoryDTO> sortedCategories = categoryService.getAllCategories().stream()
+                .sorted(Comparator.comparing(CategoryDTO::getId))
                 .toList();
 
-        for (Category category : sortedCategories) {
-            List<Product> categoryProducts = allProducts.stream()
+        for (CategoryDTO category : sortedCategories) {
+            List<ProductDTO> categoryProducts = allProducts.stream()
                     .filter(p -> p.getCategory().getId().equals(category.getId()))
                     .collect(Collectors.toList());
             map.put(category, categoryProducts);
@@ -38,12 +38,12 @@ public class ProductCache {
         return map;
     }
 
-    public Map<Category, List<Product>> getProductsByCategory() {
+    public Map<CategoryDTO, List<ProductDTO>> getProductsByCategory() {
         return Collections.unmodifiableMap(productsByCategory);
     }
 
-    public Product findProductById(Long productId) {
-        for (Product product : allProducts) {
+    public ProductDTO findProductById(Long productId) {
+        for (ProductDTO product : allProducts) {
             if (product.getId().equals(productId)) {
                 return product;
             }
@@ -52,7 +52,7 @@ public class ProductCache {
     }
 
     public ProductExtra findExtraById(Long productId, Long extraId) {
-        Product product = findProductById(productId);
+        ProductDTO product = findProductById(productId);
         if (product == null) {
             throw new RuntimeException("Producto no encontrado: " + productId);
         }

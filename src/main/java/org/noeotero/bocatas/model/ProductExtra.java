@@ -1,9 +1,11 @@
 package org.noeotero.bocatas.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "products_extras")
+@Data
 public class ProductExtra {
 
     @EmbeddedId
@@ -30,38 +32,5 @@ public class ProductExtra {
         this.extra = extra;
         this.price = price;
         this.id = new ProductExtraId(product.getId(), extra.getId());
-    }
-
-    // Getters y Setters
-    public ProductExtraId getId() {
-        return id;
-    }
-
-    public void setId(ProductExtraId id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Extra getExtra() {
-        return extra;
-    }
-
-    public void setExtra(Extra extra) {
-        this.extra = extra;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }
