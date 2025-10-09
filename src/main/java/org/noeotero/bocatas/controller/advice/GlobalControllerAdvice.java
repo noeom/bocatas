@@ -1,6 +1,6 @@
 package org.noeotero.bocatas.controller.advice;
 
-import org.noeotero.bocatas.model.User;
+import org.noeotero.bocatas.dto.UserDTO;
 import org.noeotero.bocatas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,7 @@ public class GlobalControllerAdvice {
     public void addCurrentUser(Authentication authentication, Model model) {
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
-            User user = userService.findByUsername(username);
+            UserDTO user = userService.findByUsername(username);
             if (user != null) {
                 model.addAttribute("currentUser", user);
             }

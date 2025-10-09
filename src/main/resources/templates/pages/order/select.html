@@ -29,7 +29,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3 mt-2 mb-4">
                 <th:block th:each="product : ${categoryProducts.value}">
                         <div class="col">
-                            <div class="card">
+                            <div class="card border-success">
                                 <form th:action="@{/order/add}" method="post">
                                     <input type="hidden" th:name="productId" th:value="${product.id}">
                                     <div class="card-header">
@@ -48,15 +48,15 @@
                                                     Sin extras (+ 0.00€)
                                                 </label>
                                             </li>
-                                            <th:block th:each="pe : ${product.extras}">
+                                            <th:block th:each="extra : ${product.extras}">
                                                 <li class="list-group-item">
                                                     <input class="form-check-input" type="radio"
                                                            th:name="extraId"
-                                                           th:id="'extra-' + ${product.id} + '-' + ${pe.id.extraId}"
-                                                           th:value="${pe.id.extraId}">
+                                                           th:id="'extra-' + ${product.id} + '-' + ${extra.id}"
+                                                           th:value="${extra.id}">
                                                     <label class="form-check-label"
-                                                           th:for="'extra-' + ${product.id} + '-' + ${pe.id.extraId}"
-                                                           th:text="${pe.extra.name} + ' (+ ' + ${#numbers.formatDecimal(pe.price / 100.0, 1, 2)} + '€)'">
+                                                           th:for="'extra-' + ${product.id} + '-' + ${extra.id}"
+                                                           th:text="${extra.name} + ' (+ ' + ${#numbers.formatDecimal(extra.price / 100.0, 1, 2)} + '€)'">
                                                     </label>
                                                 </li>
                                             </th:block>

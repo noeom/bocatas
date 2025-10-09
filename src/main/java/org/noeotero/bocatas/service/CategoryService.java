@@ -1,7 +1,7 @@
 package org.noeotero.bocatas.service;
 
 import org.noeotero.bocatas.dto.CategoryDTO;
-import org.noeotero.bocatas.mapper.CategoryMapper;
+import org.noeotero.bocatas.mapper.BeanMapper;
 import org.noeotero.bocatas.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private CategoryMapper categoryMapper;
+    private BeanMapper mapper;
 
     public List<CategoryDTO> getAllCategories() {
-        return categoryMapper.toDtos(categoryRepository.findAllByOrderByIdAsc());
+        return mapper.toCategoryDtos(categoryRepository.findAllByOrderByIdAsc());
     }
 
 }

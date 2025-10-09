@@ -1,10 +1,8 @@
 package org.noeotero.bocatas.service;
 
 import org.noeotero.bocatas.components.ProductCache;
-import org.noeotero.bocatas.dto.UserDTO;
-import org.noeotero.bocatas.model.Order;
-import org.noeotero.bocatas.model.OrderExtra;
-import org.noeotero.bocatas.model.ProductExtra;
+import org.noeotero.bocatas.mapper.BeanMapper;
+import org.noeotero.bocatas.model.*;
 import org.noeotero.bocatas.repository.OrderExtraRepository;
 import org.noeotero.bocatas.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +21,32 @@ public class OrderService {
     private OrderExtraRepository orderExtraRepository;
     @Autowired
     private ProductCache productCache;
+    @Autowired
+    private BeanMapper mapper;
 
     @Transactional
-    public void createOrder(Long productId, Long extraId, UserDTO user) {
-        // 1. Guardar Order
-        Order order = new Order(user, productCache.findProductById(productId));
+    public void createOrder(Long productId, Long extraId, Long userId) {
+
+        // Save product.
+        User user = new User();
+        user.setId(userId);
+        Product product =  new Product();
+        product.setId(productId);
+        Order order = new Order(user, product);
         orderRepository.save(order);
 
-        // 2. Si hay extra, guardar OrderExtra
+        // Save extra, if any.
         if (extraId == null) return;
 
-        ProductExtra productExtra = productCache.findExtraById(productId, extraId);
+        ProductExtra productExtra = new ProductExtra();
+        ProductExtraId peId = new ProductExtraId();
+        peId.setExtraId(extraId);
+        peId.setProductId(productId);
+        Extra extra = new Extra();
+        extra.setId(extraId);
+        productExtra.setId(peId);
+        productExtra.setExtra(extra);
+        productExtra.setProduct(product);
         OrderExtra orderExtra = new OrderExtra(order, productExtra);
         orderExtraRepository.save(orderExtra);
     }

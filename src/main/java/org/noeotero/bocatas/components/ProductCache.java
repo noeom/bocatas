@@ -1,8 +1,8 @@
 package org.noeotero.bocatas.components;
 
 import org.noeotero.bocatas.dto.CategoryDTO;
+import org.noeotero.bocatas.dto.ExtraDTO;
 import org.noeotero.bocatas.dto.ProductDTO;
-import org.noeotero.bocatas.model.ProductExtra;
 import org.noeotero.bocatas.service.CategoryService;
 import org.noeotero.bocatas.service.ProductService;
 import org.springframework.stereotype.Component;
@@ -51,15 +51,15 @@ public class ProductCache {
         throw new RuntimeException("Producto no encontrado: " + productId);
     }
 
-    public ProductExtra findExtraById(Long productId, Long extraId) {
+    public ExtraDTO findExtraById(Long productId, Long extraId) {
         ProductDTO product = findProductById(productId);
         if (product == null) {
             throw new RuntimeException("Producto no encontrado: " + productId);
         }
 
-        for (ProductExtra pe: product.getExtras()) {
-            if (pe.getId().getExtraId().equals(extraId)) {
-                return pe;
+        for (ExtraDTO extra: product.getExtras()) {
+            if (extra.getId().equals(extraId)) {
+                return extra;
             }
         }
         throw new RuntimeException("Extra no encontrado: " + extraId + " para el producto " + productId);

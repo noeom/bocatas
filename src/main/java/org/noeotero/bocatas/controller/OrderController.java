@@ -1,7 +1,7 @@
 package org.noeotero.bocatas.controller;
 
 import org.noeotero.bocatas.components.ProductCache;
-import org.noeotero.bocatas.model.User;
+import org.noeotero.bocatas.dto.UserDTO;
 import org.noeotero.bocatas.service.OrderService;
 import org.noeotero.bocatas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +41,8 @@ public class OrderController {
     public String addToOrder(@RequestParam Long productId,
                              @RequestParam(required = false) Long extraId,
                              Authentication authentication) {
-        User user = userService.findByUsername(authentication.getName());
-        orderService.createOrder(productId, extraId, user);
+        UserDTO user = userService.findByUsername(authentication.getName());
+        orderService.createOrder(productId, extraId, user.getId());
         return "redirect:/order";
     }
 }

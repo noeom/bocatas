@@ -7,4 +7,5 @@ public class ExtraDTO {
     private Long Id;
     private String name;
     private String description;
+    private Integer price;
 }

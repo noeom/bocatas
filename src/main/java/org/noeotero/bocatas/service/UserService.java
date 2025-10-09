@@ -1,11 +1,10 @@
 package org.noeotero.bocatas.service;
 
-import org.noeotero.bocatas.model.User;
+import org.noeotero.bocatas.dto.UserDTO;
+import org.noeotero.bocatas.mapper.BeanMapper;
 import org.noeotero.bocatas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
@@ -13,7 +12,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+    @Autowired
+    private BeanMapper mapper;
+
+    public UserDTO findByUsername(String username) {
+        return userRepository.findByUsername(username).map(mapper::toDto).orElse(null);
     }
 }
